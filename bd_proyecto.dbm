@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.3" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="13"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="caso" layer="0" collapse-mode="2" max-obj-count="15" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="340" y="240"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="fecha_reporte" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="fecha_notificacion" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="fecha_inicio_sintomas">
+		<type name="date" length="0"/>
+	</column>
+	<column name="fecha_muerte">
+		<type name="date" length="0"/>
+	</column>
+	<column name="fecha_diagnostico">
+		<type name="date" length="0"/>
+	</column>
+	<column name="fecha_recuperacion">
+		<type name="date" length="0"/>
+	</column>
+	<column name="edad" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="caso_pk" type="pk-constr" table="public.caso">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="codigo_municipio_ubicacion" index="10"/>
+		<object name="id_estado" index="9"/>
+		<object name="id_genero" index="12"/>
+		<object name="id_grupo_etnia" index="8"/>
+		<object name="id_medida_edad" index="11"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="estado_fk" index="2"/>
+		<object name="etnia_fk" index="1"/>
+		<object name="genero_fk" index="5"/>
+		<object name="medida_edad_fk" index="4"/>
+		<object name="ubicacion_fk" index="3"/>
+	</customidxs>
+</table>
+
+<table name="ubicacion" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="380" y="60"/>
+	<column name="codigo_municipio" not-null="true">
+		<type name="numeric" length="0"/>
+	</column>
+	<column name="nombre_municipio" not-null="true">
+		<type name="varchar" length="40"/>
+	</column>
+	<constraint name="ubicacion_pk" type="pk-constr" table="public.ubicacion">
+		<columns names="codigo_municipio" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="estado" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="360" y="660"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="estado_pk" type="pk-constr" table="public.estado">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_estado_final" index="1"/>
+		<object name="id_localizacion" index="2"/>
+		<object name="id_tipo_contagio" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="estado_final_fk" index="1"/>
+		<object name="localizacion_fk" index="2"/>
+	</customidxs>
+</table>
+
+<table name="etnia" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="840" y="220"/>
+	<column name="id_grupo" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nombre_grupo_etnico">
+		<type name="varchar" length="40"/>
+	</column>
+	<constraint name="etnia_pk" type="pk-constr" table="public.etnia">
+		<columns names="id_grupo" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="codigo_pertenencia_etnia" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="pertenencia_etnia_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="etnia_has_many_caso" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ffaaff"
+	 src-table="public.etnia"
+	 dst-table="public.caso"
+	 src-required="false" dst-required="false"/>
+
+<table name="estado_durante" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="920" y="780"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="estado_durante" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="estado_durante_pk" type="pk-constr" table="public.estado_durante">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="estado_final" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1180" y="680"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="20"/>
+	</column>
+	<column name="estado_final" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="estado_final_pk" type="pk-constr" table="public.estado_final">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="localizacion" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="920" y="480"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="localizacion" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="localizacion_pk" type="pk-constr" table="public.localizacion">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tipo_contagio" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1180" y="560"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="tipo_contagio" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="tipo_contagio_pk" type="pk-constr" table="public.tipo_contagio">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="estado_final_has_many_estado" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#59355b"
+	 src-table="public.estado_final"
+	 dst-table="public.estado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="localizacion_has_many_estado" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#320d8c"
+	 src-table="public.localizacion"
+	 dst-table="public.estado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="tipo_contagio_has_many_estado" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c52fb1"
+	 src-table="public.tipo_contagio"
+	 dst-table="public.estado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="estado_durante_has_many_estado" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e6662c"
+	 src-table="public.estado_durante"
+	 dst-table="public.estado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="estado_has_many_caso" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c41dbe"
+	 src-table="public.estado"
+	 dst-table="public.caso"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="ubicacion_has_many_caso" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#693ade"
+	 src-table="public.ubicacion"
+	 dst-table="public.caso"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="71.4076" y="-75.9323"/>
+	</label>
+</relationship>
+
+<table name="pertenencia_etnia" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1240" y="240"/>
+	<column name="codigo" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nombre_etnia" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="pertenencia_etnia_pk" type="pk-constr" table="public.pertenencia_etnia">
+		<columns names="codigo" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="pertenencia_etnia_has_many_etnia" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#038e3a"
+	 src-table="public.pertenencia_etnia"
+	 dst-table="public.etnia"
+	 src-required="false" dst-required="false"/>
+
+<table name="genero" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="280"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="sexo" not-null="true">
+		<type name="varchar" length="1"/>
+	</column>
+	<constraint name="genero_pk" type="pk-constr" table="public.genero">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="medida_edad" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="40" y="460"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="unidad_medida" not-null="true">
+		<type name="varchar" length="15"/>
+	</column>
+	<constraint name="medida_edad_pk" type="pk-constr" table="public.medida_edad">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="medida_edad_has_many_caso" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#679258"
+	 src-table="public.medida_edad"
+	 dst-table="public.caso"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="genero_has_many_caso" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#727a82"
+	 src-table="public.genero"
+	 dst-table="public.caso"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
