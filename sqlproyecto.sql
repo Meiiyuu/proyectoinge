@@ -230,15 +230,16 @@ REFERENCES public.genero (id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
+-- carga masiva de los datos
 COPY pertenencia_etnia FROM 'C:\csv\pertenencia_etnia.csv' WITH delimiter ';' CSV HEADER;
-COPY caso FROM 'C:\csv\caso.csv' WITH delimiter ';' CSV HEADER;
+COPY etnia FROM 'C:\csv\etnia.csv' WITH delimiter ';' CSV HEADER;
+COPY localizacion FROM 'C:\csv\localizacion.csv' WITH delimiter ';' CSV HEADER;
+COPY tipo_contagio FROM 'C:\csv\tipo_contagio.csv' WITH delimiter ';' CSV HEADER;
 COPY estado_final FROM 'C:\csv\estado_final.csv' WITH delimiter ';' CSV HEADER;
 COPY estado_durante FROM 'C:\csv\estado_durante.csv' WITH delimiter ';' CSV HEADER;
-COPY tipo_contagio FROM 'C:\csv\tipo_contagio.csv' WITH delimiter ';' CSV HEADER;
-COPY localizacion FROM 'C:\csv\localizacion.csv' WITH delimiter ';' CSV HEADER;
 COPY estado FROM 'C:\csv\estado.csv' WITH delimiter ';' CSV HEADER;
-COPY etnia FROM 'C:\csv\etnia.csv' WITH delimiter ';' CSV HEADER;
 COPY medida_edad FROM 'C:\csv\medida_edad.csv' WITH delimiter ';' CSV HEADER;
 COPY genero FROM 'C:\csv\genero.csv' WITH delimiter ';' CSV HEADER;
 COPY ubicacion FROM 'C:\csv\ubicacion.csv' WITH delimiter ';' CSV HEADER;
+COPY caso FROM 'C:\csv\caso.csv' WITH delimiter ';' CSV HEADER;
 
