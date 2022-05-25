@@ -1,0 +1,42 @@
+--casos recuperacion por etnia
+select pe.nombre_etnia,  count(c.id)
+            from etnia e INNER JOIN caso c ON (e.id_grupo = c.id_grupo_etnia)
+						 INNER JOIN estado es ON (c.id_estado = es.id)
+						 INNER JOIN estado_final ef ON (es.id_estado_final = ef.id)
+		   				 inner join pertenencia_etnia as pe on (e.codigo_pertenencia_etnia=pe.codigo)
+			WHERE ef.estado_final = 'Recuperado' 
+            group by (pe.nombre_etnia)
+			order by (count(c.id))
+--edades mas probables para recuperarse
+select c.edad, ef.estado_final, count(c.id)
+			from caso c INNER JOIN estado es ON (c.id_estado = es.id)
+						INNER JOIN estado_final ef ON (es.id_estado_final = ef.id)
+			group by (c.edad, ef.estado_final)
+			order by edad asc
+						 
+--el tiempo promedio de recuperacion por edad
+select  c.edad, AVG(extract(DAY FROM age(c.fecha_recuperacion,c.fecha_inicio_sintomas))) as tiempo_recuperacion, count(c.id)
+			from caso c INNER JOIN medida_edad m ON (c.id_medida_edad = m.id)
+			where m.unidad_medida = 'Anios'
+			group by(edad)
+			ORDER BY edad ASC
+			
+--contagios por municipio, cantidad recuperados, cantidad fallecidos
+
+select u.nombre_municipio, ef.estado_final, count(c.id)
+			from ubicacion u INNER JOIN caso c ON (u.codigo_municipio = c.codigo_municipio_ubicacion)
+						 INNER JOIN estado es ON (c.id_estado = es.id)
+						 INNER JOIN estado_final ef ON (es.id_estado_final = ef.id)
+			where ef.estado_final = 'Recuperado' or ef.estado_final =  'Fallecido'
+			group by(u.nombre_municipio, ef.estado_final)
+			order by(count(c.id)) desc
+				 
+--pacientes recuperados y fallecidos en el 2020 y 2021
+
+select count(c.id), ef.estado_final, EXTRACT(YEAR FROM fecha_reporte) as anio
+			from caso c INNER JOIN estado es ON (c.id_estado = es.id)
+						INNER JOIN estado_final ef ON (es.id_estado_final = ef.id)
+			where ef.estado_final = 'Recuperado' or ef.estado_final =  'Fallecido' and
+			      EXTRACT(YEAR FROM fecha_reporte) = 2020 or EXTRACT(YEAR FROM fecha_reporte) = 2021
+			group by(ef.estado_final, anio)
+			order by (anio)
